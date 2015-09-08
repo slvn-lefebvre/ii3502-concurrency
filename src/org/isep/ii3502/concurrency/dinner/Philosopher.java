@@ -13,17 +13,21 @@ public class Philosopher extends Thread {
 	public static int EAT_TIME = 500;
 	public static int THINK_TIME = 500;
 
-	public Chopstick left, right;
+	public Chopstick first, second;
 	private Random rand;
 	private int id;
 
 	
 	public Philosopher(int id, Chopstick left, Chopstick right) {
 		this.id = id;
-		
-		
-		this.left = left; 
-		this.right = right;
+		if(left.getId() < right.getId()) {
+		this.first = left; 
+		this.second = right;
+		} else {
+			this.first = right; 
+			this.second = left;
+		}
+			
 	
 		
 		this.rand = new Random(System.nanoTime());
@@ -48,9 +52,9 @@ public class Philosopher extends Thread {
 									id + " gonna eat for "
 									+ eatFor * 2 + "ms");
 				
-				synchronized (left) {
+				synchronized (first) {
 					Thread.sleep(eatFor);
-					synchronized (right) {
+					synchronized (second) {
 
 						Thread.sleep(eatFor);
 
